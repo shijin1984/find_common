@@ -1,10 +1,11 @@
 $(function() {
-  console.log("in main.js!");
   var config = {
     elementCount: 3,
     elementFigs: "1234567890",
     selectedFigId: null,
+    audio: new Audio("audio/praise2.mp3"),
   };
+  config.audio.autoplay = false;
 
   var shuffleArray = function(array) {
     // Shuffle the array.
@@ -32,7 +33,14 @@ $(function() {
       // Click another fig, either on the same side or the other.
       // Compare the text will always work because of no duplicated figs.
       if ($(this).text() == $("#" + config.selectedFigId).text()) {
-        console.log('WIN!');
+        // It is a winning cases!
+        $("#" + config.selectedFigId).css("border-style", "hidden");
+        config.selectedFigId = null;
+
+        if (config.audio.paused || config.audio.ended) {
+          config.audio.currentTime = 0;
+          config.audio.play();
+        }
       } else {
         // A wrong match, select the newly clicked one.
         $("#" + config.selectedFigId).css("border-style", "hidden");
