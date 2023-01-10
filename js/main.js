@@ -2,7 +2,22 @@ $(function() {
   console.log("in main.js!");
   var config = {
     elementCount: 3,
+    elementFigs: "1234567890",
   };
+
+  var shuffleArray = function(array) {
+    // Shuffle the array.
+    var currentIndex = array.length;
+    while (currentIndex != 0) {
+      // Pick a remaining element.
+      var randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex], array[currentIndex]];
+    }
+    return array;
+  }
 
   var create_content_nodes = function() {
     var three_elem = function(position) {
@@ -42,6 +57,23 @@ $(function() {
     $("#right_td").empty();
     func_list[config.elementCount]("right");
   };
+
+  $("#shuf").click(function() {
+    var array = shuffleArray(Array.from(config.elementFigs));
+    var left = array.slice(0, 3);
+    var right = array.slice(3, 5);
+    right.push(array[0]);
+
+    var setFigs = function(position, figs) {
+      figs = shuffleArray(figs);
+      for (var i = 0; i < figs.length; ++i) {
+        $("#" + position + "_fig_" + i).text(figs[i]);
+      }
+    }
+
+    setFigs("left", left);
+    setFigs("right", right);
+  });
 
   create_content_nodes();
 });
