@@ -63,7 +63,7 @@ $(function() {
         node.css({
           width: size + "px",
           height: size + "px",
-          "font-size": size + "px",
+          "font-size": Math.max(size*0.8, size - 50) + "px",
           border: "blue",
           "border-style": "hidden",
         });
