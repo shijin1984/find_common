@@ -93,6 +93,9 @@ $(function() {
 
   $("#shuf").click(function() {
     var array = shuffleArray(Array.from(config.elementFigs));
+    // A black unicode char is in the array. Possibly because we copy and paste
+    // something strange to config.elementFigs.
+    array = array.filter(function(ele) { return ele.charCodeAt(0) != 65039; });
     var left = array.slice(0, 3);
     var right = array.slice(3, 5);
     right.push(array[0]);
