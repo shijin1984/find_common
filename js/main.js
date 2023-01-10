@@ -76,4 +76,5 @@ $(function() {
   });
 
   create_content_nodes();
+  $("#shuf").click();
 });
