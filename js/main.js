@@ -1,7 +1,7 @@
 $(function() {
   var config = {
     elementCount: 3,
-    elementFigs: "1234567890",
+    elementFigs: "🍇🍈🍉🍋🍌🍍🍎🍑🍒🍓🥝🥕🌽🌶️🍄🥜🍚",
     selectedFigId: null,
     audio: new Audio("audio/praise2.mp3"),
   };
