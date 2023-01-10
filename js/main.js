@@ -3,6 +3,7 @@ $(function() {
   var config = {
     elementCount: 3,
     elementFigs: "1234567890",
+    selectedFigId: null,
   };
 
   var shuffleArray = function(array) {
@@ -19,29 +20,53 @@ $(function() {
     return array;
   }
 
-  var create_content_nodes = function() {
+  var onClickFig = function() {
+    var id = $(this).attr("id");
+    if (config.selectedFigId == null) {
+      // None in selection, so to select this.
+      config.selectedFigId = id;
+      $(this).css("border-style", "solid");
+    } else if (config.selectedFigId == id) {
+      // Click the same element again, do nothing.
+    } else {
+      // Click another fig, either on the same side or the other.
+      // Compare the text will always work because of no duplicated figs.
+      if ($(this).text() == $("#" + config.selectedFigId).text()) {
+        console.log('WIN!');
+      } else {
+        // A wrong match, select the newly clicked one.
+        $("#" + config.selectedFigId).css("border-style", "hidden");
+        config.selectedFigId = id;
+        $(this).css("border-style", "solid");
+      }
+    }
+  };
+
+  var createContentNodes = function() {
     var three_elem = function(position) {
       var parentId = position + "_td";
       var width = $("#" + parentId).width();
       var height = $("#" + parentId).height();
-      var size = Math.min(width/2, height/2);
+      var size = Math.min(width/2, height/2) - 2;
 
       var nodes = [];
       for (var i = 0; i < 3; ++i) {
         var node = $("<div></div>", { id: position + "_fig_" + i});
-        node.text(i + 1);
         node.css({
           width: size + "px",
           height: size + "px",
           "font-size": size + "px",
+          border: "blue",
+          "border-style": "hidden",
         });
+        node.click(onClickFig);
 
         nodes.push(node);
       }
 
       nodes[0].css("margin-left", (width / 4) + "px");
-      nodes[1].css({float: "left", width: "50%"});
-      nodes[2].css({float: "left", width: "50%"});
+      nodes[1].css({float: "left", width: size + "px"});
+      nodes[2].css({float: "left", width: size + "px"});
 
       for (var i = 0; i < 3; ++i) {
         $("#" + parentId).append(nodes[i]);
@@ -67,7 +92,9 @@ $(function() {
     var setFigs = function(position, figs) {
       figs = shuffleArray(figs);
       for (var i = 0; i < figs.length; ++i) {
-        $("#" + position + "_fig_" + i).text(figs[i]);
+        var selector = "#" + position + "_fig_" + i;
+        $(selector).css("border-style", "hidden");
+        $(selector).text(figs[i]);
       }
     }
 
@@ -75,6 +102,6 @@ $(function() {
     setFigs("right", right);
   });
 
-  create_content_nodes();
+  createContentNodes();
   $("#shuf").click();
 });
