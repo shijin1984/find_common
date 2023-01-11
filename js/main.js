@@ -67,7 +67,7 @@ $(function () {
           border: "blue",
           "border-style": "hidden",
         });
-        node.click(onClickFig);
+        node.on("click touchstart", onClickFig);
 
         nodes.push(node);
       }
