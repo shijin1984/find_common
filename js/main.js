@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
   var config = {
     elementCount: 3,
     elementFigs: "🍇🍈🍉🍋🍌🍍🍎🍑🍒🍓🥝🥕🌽🌶️🍄🥜🍚",
@@ -7,7 +7,7 @@ $(function() {
   };
   config.audio.autoplay = false;
 
-  var shuffleArray = function(array) {
+  var shuffleArray = function (array) {
     // Shuffle the array.
     var currentIndex = array.length;
     while (currentIndex != 0) {
@@ -16,12 +16,12 @@ $(function() {
       currentIndex--;
       // And swap it with the current element.
       [array[currentIndex], array[randomIndex]] = [
-          array[randomIndex], array[currentIndex]];
+        array[randomIndex], array[currentIndex]];
     }
     return array;
   }
 
-  var onClickFig = function() {
+  var onClickFig = function () {
     var id = $(this).attr("id");
     if (config.selectedFigId == null) {
       // None in selection, so to select this.
@@ -50,20 +50,20 @@ $(function() {
     }
   };
 
-  var createContentNodes = function() {
-    var three_elem = function(position) {
+  var createContentNodes = function () {
+    var three_elem = function (position) {
       var parentId = position + "_td";
       var width = $("#" + parentId).width();
       var height = $("#" + parentId).height();
-      var size = Math.min(width/2, height/2) - 2;
+      var size = Math.min(width / 2, height / 2) - 2;
 
       var nodes = [];
       for (var i = 0; i < 3; ++i) {
-        var node = $("<div></div>", { id: position + "_fig_" + i});
+        var node = $("<div></div>", { id: position + "_fig_" + i });
         node.css({
           width: size + "px",
           height: size + "px",
-          "font-size": Math.max(size*0.8, size - 50) + "px",
+          "font-size": Math.max(size * 0.8, size - 50) + "px",
           border: "blue",
           "border-style": "hidden",
         });
@@ -73,8 +73,8 @@ $(function() {
       }
 
       nodes[0].css("margin-left", (width / 4) + "px");
-      nodes[1].css({float: "left", width: size + "px"});
-      nodes[2].css({float: "left", width: size + "px"});
+      nodes[1].css({ float: "left", width: size + "px" });
+      nodes[2].css({ float: "left", width: size + "px" });
 
       for (var i = 0; i < 3; ++i) {
         $("#" + parentId).append(nodes[i]);
@@ -91,16 +91,16 @@ $(function() {
     func_list[config.elementCount]("right");
   };
 
-  $("#shuf").click(function() {
+  $("#shuf").click(function () {
     var array = shuffleArray(Array.from(config.elementFigs));
     // A black unicode char is in the array. Possibly because we copy and paste
     // something strange to config.elementFigs.
-    array = array.filter(function(ele) { return ele.charCodeAt(0) != 65039; });
+    array = array.filter(function (ele) { return ele.charCodeAt(0) != 65039; });
     var left = array.slice(0, 3);
     var right = array.slice(3, 5);
     right.push(array[0]);
 
-    var setFigs = function(position, figs) {
+    var setFigs = function (position, figs) {
       figs = shuffleArray(figs);
       for (var i = 0; i < figs.length; ++i) {
         var selector = "#" + position + "_fig_" + i;
