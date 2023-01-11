@@ -22,11 +22,17 @@ $(function () {
   }
 
   var onClickFig = function () {
+
+    var selectFig = function(ele, selected) {
+      var color = selected ? "violet": "none";
+      ele.css("background", color);
+    }
+
     var id = $(this).attr("id");
     if (config.selectedFigId == null) {
       // None in selection, so to select this.
       config.selectedFigId = id;
-      $(this).css("border-style", "solid");
+      selectFig($(this), true);
     } else if (config.selectedFigId == id) {
       // Click the same element again, do nothing.
     } else {
@@ -34,7 +40,7 @@ $(function () {
       // Compare the text will always work because of no duplicated figs.
       if ($(this).text() == $("#" + config.selectedFigId).text()) {
         // It is a winning cases!
-        $("#" + config.selectedFigId).css("border-style", "hidden");
+        selectFig($("#" + config.selectedFigId), false);
         config.selectedFigId = null;
 
         if (config.audio.paused || config.audio.ended) {
@@ -43,9 +49,9 @@ $(function () {
         }
       } else {
         // A wrong match, select the newly clicked one.
-        $("#" + config.selectedFigId).css("border-style", "hidden");
+        selectFig($("#" + config.selectedFigId), false);
         config.selectedFigId = id;
-        $(this).css("border-style", "solid");
+        selectFig($(this), true);
       }
     }
   };
@@ -66,6 +72,7 @@ $(function () {
           "font-size": Math.max(size * 0.8, size - 50) + "px",
           border: "blue",
           "border-style": "hidden",
+          background: "none",
         });
         node.on("click touchstart", onClickFig);
 
